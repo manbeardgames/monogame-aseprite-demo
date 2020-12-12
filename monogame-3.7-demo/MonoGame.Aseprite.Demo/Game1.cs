@@ -32,24 +32,44 @@ namespace MonoGame.Aseprite.Demo
 {
     public class Game1 : Game
     {
-        private readonly GraphicsDeviceManager _graphics;
-        private SpriteBatch _spriteBatch;
-        private Texture2D _pixel;
-        private Rectangle _rect;
-        private Point _gridCellSize;
-        private Color _gridColorA;
-        private Color _gridColorB;
-        private int _gridColumnCount;
-        private int _gridRowCount;
-        private KeyboardState _prevKeyState;
-        private KeyboardState _curKeyState;
+        // ------------------------------------------------
+        //  Graphics and Rendering
+        // ------------------------------------------------
+        private readonly GraphicsDeviceManager _graphics;   //  Manages graphic presentation.
+        private SpriteBatch _spriteBatch;                   //  Used to render textures.
+        private Point _resolution;                          //  The resolution of our game.
+
+        // ------------------------------------------------
+        //  Player
+        // ------------------------------------------------
+        private AnimatedSprite _sprite;                     //  The animated sprite of our character.
+        private bool _playerCanMove;                        //  Can the player move.
+
+        // ------------------------------------------------
+        //  Input states
+        // ------------------------------------------------
+        private KeyboardState _prevKeyState;                //  The previous keyboard state.
+        private KeyboardState _curKeyState;                 //  The current keyboard state.
+
+        // ------------------------------------------------
+        //  Background Grid
+        // ------------------------------------------------
+        private Point _gridCellSize;                        //  The width and height of a grid cell.
+        private Color _gridColorA;                          //  A color used for a grid cell.
+        private Color _gridColorB;                          //  Alternate color used for a grid cell.
+        private int _gridColumnCount;                       //  The total number of columns in the grid.
+        private int _gridRowCount;                          //  The total number of rows in the grid.
+
+        // ------------------------------------------------
+        //  Utilities
+        // ------------------------------------------------
+        private Texture2D _pixel;                           //  A 1x1 pixel texture.
+        private Rectangle _rect;                            //  A struct we can reuse without recreating.
 
 
-
-        private Point _resolution;      //  The resolution of our game.
-        private AnimatedSprite _sprite; //  The animated sprite of our character.
-        private bool _playerCanMove;    //  Can the player move.
-
+        /// <summary>
+        ///     Creates a new instance of our game.
+        /// </summary>
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -57,6 +77,9 @@ namespace MonoGame.Aseprite.Demo
             IsMouseVisible = true;
         }
 
+        /// <summary>
+        ///     Iniitializes our game.
+        /// </summary>
         protected override void Initialize()
         {
             //  Set the game resolution
@@ -80,13 +103,11 @@ namespace MonoGame.Aseprite.Demo
             _playerCanMove = true;
 
             base.Initialize();
-
-
-
-
-
         }
 
+        /// <summary>
+        ///     Loads content for our game.
+        /// </summary>
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
@@ -104,6 +125,12 @@ namespace MonoGame.Aseprite.Demo
             _sprite.Y = _resolution.Y - (_sprite.Height * _sprite.Scale.Y) - 16;
         }
 
+        /// <summary>
+        ///     Updates the game.
+        /// </summary>
+        /// <param name="gameTime">
+        ///     A snapshot of the timing values provided by the framework.
+        /// </param>
         protected override void Update(GameTime gameTime)
         {
             float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -111,7 +138,6 @@ namespace MonoGame.Aseprite.Demo
             //  Update our input states
             _prevKeyState = _curKeyState;
             _curKeyState = Keyboard.GetState();
-
 
             //  Check if the player is crouched down
             bool isCrouched = KeyCheck(Keys.Down) || KeyCheck(Keys.S);
@@ -144,7 +170,6 @@ namespace MonoGame.Aseprite.Demo
                     _sprite.Play("idle");
                 }
 
-
                 if (KeyPressed(Keys.Space))
                 {
                     _sprite.Play("attack3");
@@ -156,9 +181,7 @@ namespace MonoGame.Aseprite.Demo
                         _playerCanMove = true;
                         _sprite.OnAnimationLoop = null;
                     };
-
                 }
-
             }
 
             _sprite.Update(deltaTime);
@@ -166,6 +189,12 @@ namespace MonoGame.Aseprite.Demo
             base.Update(gameTime);
         }
 
+        /// <summary>
+        ///     Draws the game.
+        /// </summary>
+        /// <param name="gameTime">
+        ///     A snapshot of the timeing values provided by the framework.
+        /// </param>
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
@@ -178,6 +207,9 @@ namespace MonoGame.Aseprite.Demo
             base.Draw(gameTime);
         }
 
+        /// <summary>
+        ///     Draws the background grid
+        /// </summary>
         private void DrawGrid()
         {
             for (int c = 0; c < _gridColumnCount; c++)
@@ -200,7 +232,6 @@ namespace MonoGame.Aseprite.Demo
                 }
             }
         }
-
 
         // ---------------------------------------------------------------
         //
@@ -237,9 +268,15 @@ namespace MonoGame.Aseprite.Demo
             return _curKeyState.IsKeyDown(key) && _prevKeyState.IsKeyUp(key);
         }
 
+        /// <summary>
+        ///     Retruns a value indicating if there are no keys pressed.
+        /// </summary>
+        /// <returns>
+        ///     True if there are no keys pressed; otherwise false.
+        /// </returns>
         private bool AreNoKeysPressed()
         {
-            return _curKeyState.GetPressedKeyCount() == 0;
+            return _curKeyState.GetPressedKeys().Length == 0;
         }
     }
 }

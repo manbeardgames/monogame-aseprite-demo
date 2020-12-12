@@ -10,11 +10,11 @@
 
 #-------------------------------- References --------------------------------#
 
-/reference:..\..\..\ref\MonoGame.Aseprite.ContentPipeline.dll
+/reference:..\..\..\..\..\..\..\.nuget\packages\monogame.aseprite\2.0.3.3\contentFiles\netstandard2.0\MonoGame.Aseprite.ContentPipeline.dll
 
 #---------------------------------- Content ---------------------------------#
 
-#begin ../../../ref/adventurer.aseprite
+#begin adventurer.aseprite
 /importer:AsepriteDocumentImporter
 /processor:AsepriteDocumentProcessor
 /processorParam:SheetType=Packed
@@ -24,6 +24,5 @@
 /processorParam:BorderPadding=0
 /processorParam:Spacing=0
 /processorParam:InnerPadding=0
-/processorParam:OutputSpriteSheet=
-/build:../../../ref/adventurer.aseprite;adventurer.aseprite
+/build:adventurer.aseprite
 
