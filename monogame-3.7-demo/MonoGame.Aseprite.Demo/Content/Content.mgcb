@@ -10,7 +10,7 @@
 
 #-------------------------------- References --------------------------------#
 
-/reference:..\..\packages\MonoGame.Aseprite.2.0.3.3\contentFiles\net45\MonoGame.Aseprite.ContentPipeline.dll
+/reference:..\..\packages\MonoGame.Aseprite.2.0.4.1\contentFiles\net45\MonoGame.Aseprite.ContentPipeline.dll
 
 #---------------------------------- Content ---------------------------------#
 
